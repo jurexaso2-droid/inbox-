@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inbox · 01292e18@phantommail.shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5f7fa;
+      --surface:   #ffffff;
+      --surface2:  #f0f2f7;
+      --border:    #e3e7ef;
+      --accent:    #4f6ef7;
+      --accent-lo: rgba(79,110,247,0.08);
+      --green:     #16a34a;
+      --green-lo:  rgba(22,163,74,0.09);
+      --muted:     #9ca3af;
+      --text:      #111827;
+      --text-soft: #6b7280;
+      --radius:    14px;
+      --mono:      'DM Mono', monospace;
+      --sans:      'DM Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-soft);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 14px; height: 14px; }
+
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-lo);
+      border: 1px solid rgba(79,110,247,0.2);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, transform 0.12s;
+    }
+    .refresh-btn:hover { background: rgba(79,110,247,0.15); border-color: rgba(79,110,247,0.35); }
+    .refresh-btn:active { transform: scale(0.96); }
+    .refresh-btn svg { width: 13px; height: 13px; transition: transform 0.5s; }
+    .refresh-btn:hover svg { transform: rotate(180deg); }
+
+    /* ── Page title ── */
+    .page-title {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-soft);
+      margin-bottom: 0.3rem;
+    }
+    .alias-address {
+      font-family: var(--mono);
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── Error banner ── */
+    .error-banner {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #fca5a5;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Email cards ── */
+    .email-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .email-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      animation: slideIn 0.3s ease both;
+    }
+    .email-card:hover {
+      border-color: rgba(79,110,247,0.25);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .email-subject {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .email-meta {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-top: 3px;
+    }
+
+    /* ── Badges ── */
+    .badge {
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+    .badge-code { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .badge-link { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    .badge-text { background: var(--surface2); color: var(--text-soft); border: 1px solid var(--border); }
+
+    /* ── Preview row ── */
+    .card-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 14px;
+    }
+
+    .preview-text {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--text);
+      word-break: break-all;
+      white-space: pre-wrap;
+      flex: 1;
+    }
+    .preview-text.is-code { color: #15803d; font-size: 1.1rem; font-weight: 500; letter-spacing: 0.12em; }
+    .preview-text.is-link { color: var(--accent); font-size: 0.78rem; }
+
+    .copy-btn {
+      flex-shrink: 0;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-soft);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 11px;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.1s;
+      white-space: nowrap;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .copy-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .copy-btn:hover {
+      color: var(--text);
+      background: var(--surface2);
+      border-color: #d1d5db;
+    }
+    .copy-btn:active { transform: scale(0.93); }
+
+    /* Copied state */
+    .copy-btn.copied {
+      color: #15803d;
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    /* Ripple on copy */
+    .copy-btn .ripple {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle, rgba(22,163,74,0.25) 0%, transparent 70%);
+      opacity: 0;
+      transform: scale(0.5);
+      pointer-events: none;
+      transition: opacity 0.12s, transform 0.3s;
+    }
+    .copy-btn.copied .ripple {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+    .empty p { font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <a href="dashboard.php" class="back-link">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 12L6 8l4-4"/>
+        </svg>
+        Back
+      </a>
+      <button class="refresh-btn" onclick="handleRefresh(this)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13.5 2.5A7 7 0 1 0 14 8"/>
+          <path d="M14 2.5V6h-3.5"/>
+        </svg>
+        Refresh
+      </button>
+    </div>
+
+    <p class="page-title">📥 Inbox for</p>
+    <div class="alias-address">01292e18@phantommail.shop</div>
+
+          <p class="subtitle">0 messages · last 7 days</p>
+    
+    <div class="email-list">
+      
+              <div class="empty">
+          <div class="empty-icon">📭</div>
+          <p>No emails yet. They'll show up here.</p>
+        </div>
+          </div>
+
+  </div>
+
+  <script>
+    // Values stored safely via PHP JSON encoding — no HTML attribute encoding issues
+    const COPY_VALUES = [];
+
+    function copyText(btn) {
+      const idx   = parseInt(btn.dataset.idx, 10);
+      const value = COPY_VALUES[idx] ?? '';
+      const label = btn.querySelector('.btn-label');
+      const icon  = btn.querySelector('svg');
+
+      // Use document.execCommand fallback if clipboard API unavailable
+      const doFallback = () => {
+        const ta = document.createElement('textarea');
+        ta.value = value;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      };
+
+      const onSuccess = () => {
+        btn.classList.add('copied');
+        label.textContent = 'Copied!';
+        icon.innerHTML = `<path d="M2.5 8.5l3.5 3.5 7-7" stroke-linecap="round" stroke-linejoin="round"/>`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          label.textContent = 'Copy';
+          icon.innerHTML = `<rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/>`;
+        }, 2000);
+      };
+
+      const onFail = () => {
+        label.textContent = 'Failed';
+        setTimeout(() => { label.textContent = 'Copy'; }, 1500);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(value).then(onSuccess).catch(() => {
+          doFallback() ? onSuccess() : onFail();
+        });
+      } else {
+        doFallback() ? onSuccess() : onFail();
+      }
+    }
+
+    function handleRefresh(btn) {
+      btn.querySelector('svg').style.transform = 'rotate(360deg)';
+      setTimeout(() => location.reload(), 400);
+    }
+  </script>
+</body>
+</html>
